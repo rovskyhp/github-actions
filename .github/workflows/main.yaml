@@ -1,6 +1,6 @@
 name: node nosql API v1
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
 
