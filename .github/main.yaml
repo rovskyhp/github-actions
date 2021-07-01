@@ -1,0 +1,27 @@
+name: node nosql API v1
+
+on: [push]
+
+jobs:
+
+  build:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build Docker image 
+        run: docker build . --file Dockerfile --tag nosql-api-v1
+
+  test:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Api Test
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      -run: npm ci
+      -run: npm test
