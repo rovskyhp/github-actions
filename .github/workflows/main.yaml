@@ -1,6 +1,9 @@
 name: node nosql API v1
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
 
@@ -11,7 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build Docker image 
-        run: docker build . --file Dockerfile --tag nosql-api-v1
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Build & push image 
+        run: | 
+               docker build . --tag registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web -f docker/prod/Dockerfile
+               docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+      - name: Release
+        run: heroku container:relase -a ${{ secrets.HEROKU_APP_NAME }} web
 
   test:
 
