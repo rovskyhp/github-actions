@@ -24,6 +24,7 @@ jobs:
       - name: Release
         run: heroku container:release -a ${{ secrets.HEROKU_APP_NAME }} web
 
+
   test:
 
     runs-on: ubuntu-latest
